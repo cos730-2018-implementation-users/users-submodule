@@ -1,0 +1,507 @@
+swagger: '2.0'
+info:
+  description: >-
+    This definition describes all the resources available on the User Subsystem,
+    and the HTTP methods applicable on each. It also provides definitions and descriptions for
+    authentication and authorisation routes.
+  version: 0.0.1
+  title: User Subsystem API
+  # license:
+    # name: MIT
+host: benchmarking.up.ac.za
+basePath: /api/v1
+tags:
+  - name: Authentication
+    description: Available authentication routes
+    externalDocs:
+      description: Find out more
+      url: 'https://github.com'
+  - name: Authorization
+    description: Available authorization routes
+    externalDocs:
+      description: Find out more
+      url: 'https://github.com'
+  - name: User
+    description: Operations available on User resources
+    externalDocs:
+      description: Find out more
+      url: 'https://github.com'
+schemes:
+  - https
+paths:
+  /user:
+    parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token authentication, e.g. "Bearer <_JWT_>".
+        required: true
+        type: string
+    get:
+      tags:
+        - User
+      summary: Get a list of all user resources.
+      description: Returns a list of all user resources.
+      operationId: getAllUsers
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfully returned all users.
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/UserResponse'
+        '401':
+          description: Request is missing authorization headers or an invalid authorization token was provided.
+        '403':
+          description: User is not authorized to make the request.
+        '500':
+          description: Fatal Internal Server Error
+    post:
+      tags:
+        - User
+      summary: Creates a new user resource on the system.
+      description: Only a logged in and authorised user may execute this.
+      operationId: createUser
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            $ref: '#/definitions/UserRequest'
+      responses:
+        '201':
+          description: Successful Operation
+          schema:
+            $ref: '#/definitions/UserResponse'
+        '400':
+          description: Bad request
+          schema:
+            $ref: '#/definitions/UserRequest'
+        '401':
+          description: Request is missing authorization headers or an invalid authorization token was provided.
+        '403':
+          description: User is not authorized to make the request.
+        '422':
+          description: Validation Exception
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserRequest'
+        '500':
+          description: Fatal Internal Server Error
+  '/user/{userid}':
+    parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token authentication, e.g. "Bearer <_JWT_>".
+        required: true
+        type: string
+      - name: userid
+        in: path
+        description: The id of the user resource.
+        required: true
+        type: string
+    get:
+      tags:
+        - User
+      summary: Get user by user id
+      description: Searches for and returns a user resource by userid.
+      operationId: getUserById
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfully found and returned user.
+          schema:
+            $ref: '#/definitions/UserResponse'
+        '400':
+          description: Invalid userid supplied
+        '401':
+          description: Request is missing authorization headers or an invalid authorization token was provided.
+        '403':
+          description: User is not authorized to make the request.
+        '404':
+          description: User with given userid does not exists.
+        '500':
+          description: Fatal Internal Server Error
+    put:
+      tags:
+        - User
+      summary: Fully update a user resource.
+      description: Operation can obly be performed by a logged-in and authorised user.
+      operationId: updateUser
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: The full user resource object.
+          required: true
+          schema:
+            $ref: '#/definitions/UserRequest'
+      responses:
+        '204':
+          description: User successfully updated.
+        '400':
+          description: Invalid userid or user object supplied
+        '401':
+          description: Request is missing authorization headers or an invalid authorization token was provided.
+        '403':
+          description: User is not authorized to make the request.
+        '404':
+          description: User with given userid does not exists.
+        '500':
+          description: Fatal Internal Server Error
+    patch:
+      tags:
+        - User
+      summary: Partially update a user resource.
+      description: Operation can obly be performed by a logged-in and authorised user.
+      operationId: patchUser
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Any partial user resource object.
+          required: true
+          schema:
+            $ref: '#/definitions/PartialUserRequest'
+      responses:
+        '204':
+          description: User successfully patched.
+        '400':
+          description: Invalid userid or user object supplied
+        '401':
+          description: Request is missing authorization headers or an invalid authorization token was provided.
+        '403':
+          description: User is not authorized to make the request.
+        '404':
+          description: User with given userid does not exists.
+        '500':
+          description: Fatal Internal Server Error      
+    delete:
+      tags:
+        - User
+      summary: Delete an existing user.
+      description: Operation can obly be performed by a logged-in and authorised user.
+      operationId: deleteUser
+      produces:
+        - application/json
+      responses:
+        '204':
+          description: User successfully deleted.
+        '400':
+          description: Invalid userid supplied
+        '401':
+          description: Request is missing authorization headers or an invalid authorization token was provided.
+        '403':
+          description: User is not authorized to make the request.
+        '404':
+          description: User with given userid does not exists.
+        '500':
+          description: Fatal Internal Server Error
+  /user/login:
+    get:
+      tags:
+        - Authentication
+      summary: Logs user into the system.
+      description: ''
+      operationId: loginUser
+      produces:
+        - application/json
+      parameters:
+        - name: authorization
+          in: header
+          description: 'User credentials as Basic Authentication, e.g "Basic <_Base64 encoded username and password_>"'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully logged-in.
+          schema:
+            $ref: '#/definitions/AuthenticationResponse'
+          headers:
+            X-Expires-After:
+              type: string
+              format: date-time
+              description: 'date in UTC when token expires'
+        '401':
+          description: Invalid username/password combination supplied.
+        '500':
+          description: Fatal Internal Server Error
+  /user/logout:
+    parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token authentication, e.g. "Bearer <_JWT_>".
+        required: true
+        type: string
+    get:
+      tags:
+        - Authentication
+      summary: Logs out current logged in user session.
+      description: ''
+      operationId: logoutUser
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '204':
+          description: Successfully destroyed user session.
+        '401':
+          description: Invalid username/password combination supplied.
+        '500':
+          description: Fatal Internal Server Error
+  /role:
+    parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token authentication, e.g. "Bearer <_JWT_>".
+        required: true
+        type: string
+    get:
+      tags:
+        - Authorization
+      summary: Returns a list of all role resources.
+      description: ''
+      operationId: getRoles
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Successfully returned all roles.
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/RoleResponse'
+        '401':
+          description: Request is missing authorization headers or an invalid authorization token was provided.
+        '403':
+          description: User is not authorized to make the request.
+        '500':
+          description: Fatal Internal Server Error
+  /role/{roleid}:
+    parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token authentication, e.g. "Bearer <_JWT_>".
+        required: true
+        type: string
+      - name: roleid
+        in: path
+        description: The id of the role resource.
+        required: true
+        type: string
+    get:
+      tags:
+        - Authorization
+      summary: Get role by role id
+      description: Searches for and returns a role resource by id.
+      operationId: getRoleById
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfully found and returned role.
+          schema:
+            $ref: '#/definitions/RoleResponse'
+        '400':
+          description: Invalid roleid supplied
+        '401':
+          description: Request is missing authorization headers or an invalid authorization token was provided.
+        '403':
+          description: Role is not authorized to make the request.
+        '404':
+          description: Role with given roleid does not exists.
+        '500':
+          description: Fatal Internal Server Error
+  /permission:
+    parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token authentication, e.g. "Bearer <_JWT_>".
+        required: true
+        type: string
+    get:
+      tags:
+        - Authorization
+      summary: Returns a list of all role permissions.
+      description: ''
+      operationId: getPermissions
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Successfully returned all permissions.
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/PermissionResponse'
+        '401':
+          description: Request is missing authorization headers or an invalid authorization token was provided.
+        '403':
+          description: User is not authorized to make the request.
+        '500':
+          description: Fatal Internal Server Error
+  /permission/{permissionid}:
+    parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token authentication, e.g. "Bearer <_JWT_>".
+        required: true
+        type: string
+      - name: permissionid
+        in: path
+        description: The id of the permission resource.
+        required: true
+        type: string
+    get:
+      tags:
+        - Authorization
+      summary: Get permission by permission id
+      description: Searches for and returns a permission resource by id.
+      operationId: getPermissionById
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfully found and returned permission.
+          schema:
+            $ref: '#/definitions/PermissionResponse'
+        '400':
+          description: Invalid permissionid supplied
+        '401':
+          description: Request is missing authorization headers or an invalid authorization token was provided.
+        '403':
+          description: Permission is not authorized to make the request.
+        '404':
+          description: Permission with given permissionid does not exists.
+        '500':
+          description: Fatal Internal Server Error
+definitions:
+  AuthenticationResponse:
+    type: object
+    properties:
+      jwt:
+        type: string
+  RoleResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      key:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      permissions:
+        type: array
+        items: 
+          $ref: '#/definitions/PermissionResponse'
+      deleted:
+        type: string
+        description: Soft delete indicator.
+      created:
+        type: string
+      updated:
+        type: string
+      updatedBy:
+        type: integer
+        format: int64
+  PermissionResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      key:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      deleted:
+        type: string
+        description: Soft delete indicator.
+      created:
+        type: string
+      updated:
+        type: string
+      updatedBy:
+        type: integer
+        format: int64
+  PartialUserRequest:
+    type: object
+    properties:
+      username:
+        type: string
+      firstName:
+        type: string
+  UserRequest:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      cell:
+        type: string
+      status:
+        type: string
+        description: User Status (active, inactive, etc.)
+  UserResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      cell:
+        type: string
+      status:
+        type: string
+        description: User Status (active, inactive, etc.)
+      roles:
+        type: array
+        items: 
+          $ref: '#/definitions/RoleResponse'
+      deleted:
+        type: string
+        description: Soft delete indicator.
+      created:
+        type: string
+      updated:
+        type: string
+      updatedBy:
+        type: integer
+        format: int64
+externalDocs:
+  description: COS 730 Website
+  url: 'http://cs.up.ac.za/courses/COS730'
