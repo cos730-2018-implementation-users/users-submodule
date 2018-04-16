@@ -24,6 +24,18 @@ const welcome = (ctx) => {
   ctx.res.ok(data, 'Benchmarking System - Users API.');
 };
 
+/**
+ * @swagger
+ * /spec:
+ *   get:
+ *     tags:
+ *       - Public
+ *     summary: Shows the Swagger API definition.
+ *     operationId: showSwaggerSpec
+ *     responses:
+ *       200:
+ *         description: Returns the Swagger API definition.
+ */
 const showSwaggerSpec = (ctx) => {
   ctx.body = spec;
 };
