@@ -9,15 +9,15 @@ const configs = {
     env,
     name: process.env.APP_NAME || 'koa-rest-api-boilerplate',
     host: process.env.APP_HOST || '0.0.0.0',
-    port: 7070,
+    port: 8080,
   },
   production: {
-    port: process.env.APP_PORT || 7071,
+    port: process.env.APP_PORT || 8081,
   },
   development: {
   },
   test: {
-    port: 7072,
+    port: 8082,
   },
 };
 const config = Object.assign(configs.base, configs[env]);

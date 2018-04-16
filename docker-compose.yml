@@ -6,11 +6,9 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     container_name: users-module
-    command: pm2 start
     ports:
-      - "7070:7070"
+      - "8081:8081"
     environment:
       - NODE_ENV=production
       - IP=0.0.0.0
-      - PORT=7070
-      - LOGTYPE=dev
+      - PORT=8081

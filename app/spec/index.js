@@ -13,8 +13,8 @@ const options = {
       version: pkginfo.version,
       contact: pkginfo.author,
     },
-    host: 'localhost:7070',
-    // basePath: '/api/v1',
+    host: 'cos730.mjshika.xyz',
+    basePath: '/api/users/v1',
     schemes: [
       'https',
       'http',

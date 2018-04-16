@@ -2,7 +2,6 @@
 
 // Load APM on production environment
 const config = require('./config');
-const apm = require('./apm');
 
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
@@ -40,9 +39,6 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 function onError(err) {
-  if (apm.active) {
-    apm.captureError(err);
-  }
   logger.error({ err, event: 'error' }, 'Unhandled exception occured');
 }
 
