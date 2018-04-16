@@ -13,19 +13,16 @@ FROM node:8.9.4-alpine AS base
 # Set the working directory
 WORKDIR /app
 # Copy project specification and dependencies lock files
-COPY package.json yarn.lock ./
-# Install yarn
-RUN apk --no-cache add yarn
-
+COPY package.json package-lock.json ./
 
 ### DEPENDENCIES
 FROM base AS dependencies
 # Install Node.js dependencies (only production)
-RUN yarn --production
+RUN npm i --production
 # Copy production dependencies aside
 RUN cp -R node_modules /tmp/node_modules
 # Install ALL Node.js dependencies
-RUN yarn
+RUN npm i
 
 
 ### TEST
@@ -33,7 +30,7 @@ FROM dependencies AS test
 # Copy app sources
 COPY . .
 # Run linters and tests
-RUN yarn lint && yarn test
+RUN npm run lint && npm run test
 
 
 ### RELEASE
@@ -48,5 +45,5 @@ EXPOSE 7071
 ENV NODE_ENV production
 # Run
 # TODO: Replace to PM2 after fixing PM2 memory leak bug
-# CMD yarn run pm2-runtime --env production --raw process.json | yarn run bunyan
-CMD yarn start
+CMD npm run pm2-runtime --env production --raw process.json | npm run bunyan
+# CMD pm2 start

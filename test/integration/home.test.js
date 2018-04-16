@@ -13,9 +13,9 @@ describe('Home', () => {
         .expect(200);
 
       const { status, data, message } = res.body;
-      const expected = ['name', 'version', 'description', 'author'];
+      const expected = ['name', 'version', 'description'];
       expect(status).toBe('success');
-      expect(message).toBe('Hello, API!');
+      expect(message).toBe('Benchmarking System - Users API.');
       expect(Object.keys(data)).toEqual(expect.arrayContaining(expected));
     });
   });
