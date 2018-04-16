@@ -18,7 +18,7 @@ const welcome = (ctx) => {
     name: pkginfo.name,
     version: pkginfo.version,
     description: pkginfo.description,
-    author: pkginfo.author
+    author: pkginfo.author,
   };
 
   ctx.res.ok(data, 'Benchmarking System - Users API.');

@@ -1,7 +1,4 @@
-'use strict';
-
 const bunyan = require('bunyan');
-
 
 function reqSerializer(ctx = {}) {
   return {
@@ -11,14 +8,15 @@ function reqSerializer(ctx = {}) {
     headers: ctx.headers,
     protocol: ctx.protocol,
     ip: ctx.ip,
-    query: ctx.query
+    query: ctx.query,
   };
 }
 
 function resBodySerializer({ status, code, message } = {}) {
   const body = { status, message };
-  if (code)
+  if (code) {
     body.code = code;
+  }
   return body;
 }
 
@@ -28,7 +26,7 @@ function resSerializer(ctx = {}) {
     responseTime: ctx.responseTime,
     type: ctx.type,
     headers: (ctx.response || {}).headers,
-    body: resBodySerializer(ctx.body)
+    body: resBodySerializer(ctx.body),
   };
 }
 
@@ -43,8 +41,9 @@ function resSerializer(ctx = {}) {
 function log(options = {}) {
   const { logger = null } = options;
 
-  if (typeof logger !== 'object' || logger === null)
+  if (typeof logger !== 'object' || logger === null) {
     throw new TypeError('Logger required');
+  }
 
   return async (ctx, next) => {
     const startTime = new Date();
@@ -52,12 +51,12 @@ function log(options = {}) {
     ctx.log.addSerializers({
       req: reqSerializer,
       res: resSerializer,
-      err: bunyan.stdSerializers.err
+      err: bunyan.stdSerializers.err,
     });
 
     ctx.log.info(
       { req: ctx, event: 'request' },
-      `Request start for id: ${ctx.reqId}`
+      `Request start for id: ${ctx.reqId}`,
     );
 
     try {
@@ -65,7 +64,7 @@ function log(options = {}) {
     } catch (err) {
       ctx.log.error(
         { err, event: 'error' },
-        `Unhandled exception occured on the request: ${ctx.reqId}`
+        `Unhandled exception occured on the request: ${ctx.reqId}`,
       );
       throw err;
     }
@@ -73,7 +72,7 @@ function log(options = {}) {
     ctx.responseTime = new Date() - startTime;
     ctx.log.info(
       { req: ctx, res: ctx, event: 'response' },
-      `Request successfully completed for id: ${ctx.reqId}`
+      `Request successfully completed for id: ${ctx.reqId}`,
     );
   };
 }

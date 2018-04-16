@@ -1,7 +1,4 @@
-'use strict';
-
 const { UNKNOWN_ENDPOINT, UNKNOWN_ERROR } = require('../constants/error');
-
 
 /**
  * Return middleware that handle exceptions in Koa.
@@ -15,8 +12,9 @@ function errorHandler() {
       await next();
 
       // Respond 404 Not Found for unhandled request
-      if (!ctx.body && (!ctx.status || ctx.status === 404))
+      if (!ctx.body && (!ctx.status || ctx.status === 404)) {
         ctx.res.notFound(UNKNOWN_ENDPOINT.code, UNKNOWN_ENDPOINT.message);
+      }
     } catch (err) {
       ctx.res.internalServerError(UNKNOWN_ERROR.code, UNKNOWN_ERROR.message);
       // Recommended for centralized error reporting,

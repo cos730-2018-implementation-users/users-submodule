@@ -1,9 +1,6 @@
-'use strict';
-
 const Router = require('koa-router');
 const homeController = require('./controllers/home');
 const authenticationController = require('./controllers/authentication');
-
 
 const router = new Router();
 router.get('/', homeController.welcome);
