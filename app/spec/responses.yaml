@@ -1,4 +1,11 @@
 responses:
+  NoContent:
+    description: NoContent
+    headers:
+      X-Request-Id:
+        description: The request id.
+        type: string
+        format: uuid
   BadRequest:
     description: BadRequest
     schema:
@@ -9,6 +16,13 @@ responses:
         code: INVALID_REQUEST
         data: null
         message: 'The request has invalid parameters.'
+    headers:
+      X-Request-Id:
+        description: The request id.
+        type: string
+        format: uuid
+  Unauthorized:
+    description: Invalid username/password combination supplied.
     headers:
       X-Request-Id:
         description: The request id.

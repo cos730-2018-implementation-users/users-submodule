@@ -5,3 +5,9 @@ parameters:
     type: string
     required: true
     description: 'Action parameter for non-CRUD actions'
+  authorization:
+    name: authorization
+    in: header
+    type: string
+    required: true
+    description: 'User credentials as Basic Authentication, e.g "Basic <_Base64 encoded username and password_>"'

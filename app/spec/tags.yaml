@@ -1,3 +1,18 @@
 tags:
   - name: Public
     description: Public APIs
+  - name: Authentication
+    description: Available authentication routes
+    externalDocs:
+      description: Find out more
+      url: 'https://github.com/cos730-2018-implementation-users/users-submodule'
+  - name: Authorization
+    description: Available authorization routes
+    externalDocs:
+      description: Find out more
+      url: 'https://github.com/cos730-2018-implementation-users/users-submodule'
+  - name: User
+    description: Operations available on User resources
+    externalDocs:
+      description: Find out more
+      url: 'https://github.com/cos730-2018-implementation-users/users-submodule'

@@ -1,8 +1,5 @@
-'use strict';
-
 const pkginfo = require('../../package.json');
 const spec = require('../spec');
-
 
 /**
  * @swagger
@@ -10,14 +7,13 @@ const spec = require('../spec');
  *   get:
  *     tags:
  *       - Public
- *     summary: Show API information.
+ *     summary: Show Module API information.
  *     operationId: showApiInfo
  *     responses:
  *       200:
  *         description: Describe general API information
  */
-exports.welcome = ctx => {
-  // BUSINESS LOGIC
+const welcome = (ctx) => {
   const data = {
     name: pkginfo.name,
     version: pkginfo.version,
@@ -25,9 +21,14 @@ exports.welcome = ctx => {
     author: pkginfo.author
   };
 
-  ctx.res.ok(data, 'Hello, API!');
+  ctx.res.ok(data, 'Benchmarking System - Users API.');
 };
 
-exports.showSwaggerSpec = ctx => {
+const showSwaggerSpec = (ctx) => {
   ctx.body = spec;
+};
+
+module.exports = {
+  welcome,
+  showSwaggerSpec,
 };
