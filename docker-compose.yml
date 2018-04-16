@@ -8,6 +8,7 @@ services:
     container_name: users-module
     ports:
       - "8081:8081"
+      - "9615:9615"
     environment:
       - NODE_ENV=production
       - IP=0.0.0.0

@@ -41,6 +41,7 @@ COPY --from=dependencies /tmp/node_modules ./node_modules
 COPY . .
 # Expose application port
 EXPOSE 8081
+EXPOSE 9615
 # In production environment
 ENV NODE_ENV production
 # Run
