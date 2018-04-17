@@ -8,6 +8,5 @@ env:
   - NODE_ENV="production";SESSION_SECRET="la li"
 servives:
   - mongodb
-before_script:
-  - npm install -g gulp-cli
-script: gulp
+script:
+  - script.sh
