@@ -9,4 +9,4 @@ env:
 servives:
   - mongodb
 script:
-  - run script.sh
+  -script.sh
