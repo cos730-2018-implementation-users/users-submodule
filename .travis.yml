@@ -6,3 +6,4 @@ node_js:
 env: 
   - NODE_ENV="development"
   - NODE_ENV="production";SESSION_SECRET="la li"
+script: bash script.sh
