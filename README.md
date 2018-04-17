@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/cos730-2018-implementation-users/users-submodule.svg?branch=project-init)](https://travis-ci.org/cos730-2018-implementation-users/users-submodule)
+
 <div align="center">
   <br />
   <h1>COS 730 Users Submodule</h1>
