@@ -3,3 +3,8 @@ node_js:
   - "stable"
   - "iojs"
   - "7"
+env: 
+  - NODE_ENV="development"
+  - NODE_ENV="production";SESSION_SECRET="la li"
+servives:
+  - mongodb
