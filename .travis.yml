@@ -9,4 +9,4 @@ env:
 servives:
   - mongodb
 script:
-  - ./script.sh
+  - users-submodule/script.sh
