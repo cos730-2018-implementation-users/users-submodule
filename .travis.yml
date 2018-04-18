@@ -12,7 +12,10 @@
 language: node_js
 
 install:
-  - npm i
+  - npm cache clean -f
+  - npm install -g n
+  - node --version
+  - npm i -d
 
 script:
   - npm run test
