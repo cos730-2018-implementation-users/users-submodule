@@ -4,7 +4,9 @@
   <h2>Benchmarking System</h2>
 </div>
 <br />
+
 [![Build Status](https://travis-ci.org/cos730-2018-implementation-users/users-submodule.svg?branch=project-init)](https://travis-ci.org/cos730-2018-implementation-users/users-submodule)
+
 
 Base Boilerplate: [koa-rest-api-boilerplate](https://github.com/posquit0/koa-rest-api-boilerplate)
 
