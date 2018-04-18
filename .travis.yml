@@ -10,12 +10,17 @@
 #   - npm run lint
 
 language: node_js
+node_js:
+  - "0.12"
+  - "iojs"
+  - "7"
+  - "stable"
 
 install:
   - npm cache clean -f
   - npm install -g n
   - node --version
-  - npm i -d
+  - npm i
 
 script:
   - npm run test
