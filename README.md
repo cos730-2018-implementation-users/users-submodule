@@ -10,9 +10,17 @@
 
 Base Boilerplate: [koa-rest-api-boilerplate](https://github.com/posquit0/koa-rest-api-boilerplate)
 
+Latest Version: **0.0.1**
+
 ## The API
 
-A **LIVING** [Swagger API](https://swagger.io/) definition of this module is available [here](https://cos730-users.mjshika.xyz/api/users/v1/spec). You can either copy the content into a Swagger Editor or within the Swagger Editor, go to "File > Import url" and add this url: ``https://cos730-users.mjshika.xyz/api/users/v1/spec``. NB - the definition is in ``JSON`` format and not ``yaml``.
+A **LIVING** [Swagger API](https://swagger.io/) definition of this module is available [here](https://cos730-users.mjshika.xyz/api/users/v1/spec). You can either copy the content into a [Swagger Editor](http://editor.swagger.io/) or within the Swagger Editor, go to "File > Import url" and add this url: ``https://cos730-users.mjshika.xyz/api/users/v1/spec``. Note - the definition is in ``JSON`` format and not ``yaml``.
+
+> **NB**: The API definition is optimistic, and not all APIs are implemented on the test application. However the API forms a contract of how things will be implemented. **Also, existing definitions may change, however this will be documented via releases and versions, and should ideally not be breaking changes.**
+
+## Enhancements and Modifications
+
+To request enhancements or modifications to this API, please [open an issue here](https://github.com/cos730-2018-implementation-users/users-submodule/issues/new) describing the changes you would like. Someone in the users team will then address your request.
 
 ## Getting Started
 
