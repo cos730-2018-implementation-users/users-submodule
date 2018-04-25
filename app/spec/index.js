@@ -14,7 +14,7 @@ const options = {
       contact: pkginfo.author,
     },
     host: 'cos730.mjshika.xyz',
-    basePath: '/api/v1/users',
+    basePath: '/api/v0.0.1/',
     schemes: [
       'https',
       'http',
