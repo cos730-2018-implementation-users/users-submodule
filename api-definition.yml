@@ -49,7 +49,7 @@ paths:
           description: Successfully returned all users.
           schema:
             type: array
-            items: 
+            items:
               $ref: '#/definitions/UserResponse'
         '401':
           description: Request is missing authorization headers or an invalid authorization token was provided.
@@ -183,7 +183,7 @@ paths:
         '404':
           description: User with given userid does not exists.
         '500':
-          description: Fatal Internal Server Error      
+          description: Fatal Internal Server Error
     delete:
       tags:
         - User
@@ -278,7 +278,7 @@ paths:
           description: Successfully returned all roles.
           schema:
             type: array
-            items: 
+            items:
               $ref: '#/definitions/RoleResponse'
         '401':
           description: Request is missing authorization headers or an invalid authorization token was provided.
@@ -342,7 +342,7 @@ paths:
           description: Successfully returned all permissions.
           schema:
             type: array
-            items: 
+            items:
               $ref: '#/definitions/PermissionResponse'
         '401':
           description: Request is missing authorization headers or an invalid authorization token was provided.
@@ -405,7 +405,7 @@ definitions:
         type: string
       permissions:
         type: array
-        items: 
+        items:
           $ref: '#/definitions/PermissionResponse'
       deleted:
         type: string
@@ -490,7 +490,7 @@ definitions:
         description: User Status (active, inactive, etc.)
       roles:
         type: array
-        items: 
+        items:
           $ref: '#/definitions/RoleResponse'
       deleted:
         type: string

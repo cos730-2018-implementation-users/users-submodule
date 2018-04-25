@@ -1,11 +1,19 @@
 language: node_js
 node_js:
-  - "stable"
-  - "iojs"
   - "7"
-env: 
-  - NODE_ENV="development"
-  - NODE_ENV="production";SESSION_SECRET="la li"
-script: 
+  - "stable"
+
+install:
+  - npm cache clean -f
+  - npm install -g n
+  - node --version
+  - npm i
+
+env:
+  - NODE_ENV="test"
+
+script:
   - npm run test
   - npm run lint
+
+after_success: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
