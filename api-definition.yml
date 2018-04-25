@@ -6,10 +6,8 @@ info:
     authentication and authorisation routes.
   version: 0.0.1
   title: User Subsystem API
-  # license:
-    # name: MIT
-host: benchmarking.up.ac.za
-basePath: /api/v1
+host: cos730-users.mjshika.xyz
+basePath: /api/v0.0.1/
 tags:
   - name: Authentication
     description: Available authentication routes
@@ -28,6 +26,7 @@ tags:
       url: 'https://github.com'
 schemes:
   - https
+  - http
 paths:
   /user:
     parameters:

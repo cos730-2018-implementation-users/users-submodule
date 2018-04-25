@@ -7,7 +7,7 @@
  *     summary: Logs user into the system.
  *     operationId: userLogin
  *     parameters:
- *       - $ref: '#/parameters/authorization'
+ *       - $ref: '#/parameters/basic_authorization'
  *     responses:
  *       200:
  *         description: Successfully logged-in
@@ -37,7 +37,7 @@ const userLogin = (ctx) => {
  *       - Authentication
  *     summary: Logs out current logged in user session.
  *     parameters:
- *       - $ref: '#/parameters/authorization'
+ *       - $ref: '#/parameters/bearer_authorization'
  *     operationId: userLogout
  *     responses:
  *       204:

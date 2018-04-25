@@ -5,9 +5,15 @@ parameters:
     type: string
     required: true
     description: 'Action parameter for non-CRUD actions'
-  authorization:
+  basic_authorization:
     name: authorization
     in: header
     type: string
     required: true
     description: 'User credentials as Basic Authentication, e.g "Basic <_Base64 encoded username and password_>"'
+  bearer_authorization:
+    name: authorization
+    in: header
+    type: string
+    required: true
+    description: 'User JWT Token as Bearer Authentication Token, e.g "Bearer <JWT Token>"'
