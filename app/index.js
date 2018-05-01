@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+require('babel-core/register');
+require('babel-polyfill');
 
 // Load APM on production environment
 const config = require('./config');

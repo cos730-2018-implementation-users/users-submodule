@@ -1,3 +1,5 @@
+import { Database, aql } from 'arangojs';
+
 /**
  * @swagger
  * /user/login:
@@ -23,10 +25,21 @@
  *       500:
  *         $ref: '#/responses/InternalServerError'
  */
-const userLogin = (ctx) => {
-  // TODO - complete the logic of this function...
+// export default async function populateAssessment(ctx, next) {
+const userLogin = async (ctx, next) => {
+  const db = new Database();
 
-  ctx.res.ok('Successfully logged in.');
+  try {
+    // TODO - complete the logic of this function...
+    const now = Date.now();
+    const cursor = await db.query(aql` RETURN ${now}`);
+    const result = await cursor.next();
+    ctx.res.ok('Successfully logged in: ', result);
+    return next();
+  } catch (err) {
+    console.log('An error occorred! ', err);
+    return next();
+  }
 };
 
 /**
