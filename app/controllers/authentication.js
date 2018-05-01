@@ -26,7 +26,8 @@ import { Database, aql } from 'arangojs';
  *         $ref: '#/responses/InternalServerError'
  */
 // export default async function populateAssessment(ctx, next) {
-const userLogin = async (ctx, next) => {
+// export async function getBlacklist(ctx, next) {
+export async function userLogin(ctx, next) {
   const db = new Database();
 
   try {
@@ -60,13 +61,9 @@ const userLogin = async (ctx, next) => {
  *       500:
  *         $ref: '#/responses/InternalServerError'
  */
-const userLogout = (ctx) => {
+// const userLogout = (ctx) => {
+export async function userLogout(ctx, next) {
   // TODO - complete the logic of this function...
 
   ctx.res.ok('Successfully logged out.');
-};
-
-module.exports = {
-  userLogin,
-  userLogout,
 };
