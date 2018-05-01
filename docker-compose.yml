@@ -17,6 +17,5 @@ services:
       - users-network
 
 networks:
-  default:
-    external:
-      name: users-network
+  users-network:
+    external: true

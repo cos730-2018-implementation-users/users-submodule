@@ -34,6 +34,7 @@ $ npm run start
 Or with Docker
 
 ```zsh
+$ make init #Will create the required docker network. Only run once.
 $ docker-compose up -d --build
 ```
 
