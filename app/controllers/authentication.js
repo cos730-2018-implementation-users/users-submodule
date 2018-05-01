@@ -1,5 +1,10 @@
 import { Database, aql } from 'arangojs';
 
+const db = new Database({
+  url: 'http://localhost:8529',
+});
+db.useBasicAuth('root', 'mysecretpassword');
+
 /**
  * @swagger
  * /user/login:
@@ -25,11 +30,7 @@ import { Database, aql } from 'arangojs';
  *       500:
  *         $ref: '#/responses/InternalServerError'
  */
-// export default async function populateAssessment(ctx, next) {
-// export async function getBlacklist(ctx, next) {
 export async function userLogin(ctx, next) {
-  const db = new Database();
-
   try {
     // TODO - complete the logic of this function...
     const now = Date.now();
@@ -38,10 +39,10 @@ export async function userLogin(ctx, next) {
     ctx.res.ok('Successfully logged in: ', result);
     return next();
   } catch (err) {
-    console.log('An error occorred! ', err);
+    ctx.res.internal_server_error('Oops, something went wrong.');
     return next();
   }
-};
+}
 
 /**
  * @swagger
@@ -61,9 +62,8 @@ export async function userLogin(ctx, next) {
  *       500:
  *         $ref: '#/responses/InternalServerError'
  */
-// const userLogout = (ctx) => {
 export async function userLogout(ctx, next) {
   // TODO - complete the logic of this function...
 
   ctx.res.ok('Successfully logged out.');
-};
+}
