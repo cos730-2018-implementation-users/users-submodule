@@ -11,5 +11,12 @@ services:
       - "9615:9615"
     environment:
       - NODE_ENV=production
-      - IP=0.0.0.0
+      - IP=127.0.0.1
       - PORT=8081
+    networks:
+      - users-network
+
+networks:
+  default:
+    external:
+      name: users-network
