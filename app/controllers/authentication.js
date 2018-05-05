@@ -53,7 +53,7 @@ export async function userLogin(ctx, next) {
 
     const response = await login(username, password);
 
-    ctx.res.ok('Successfully logged in: ', response);
+    ctx.res.ok('Successfully logged in: ', response.data);
     return next();
   } catch (err) {
     console.log('ERROR: ', err);
