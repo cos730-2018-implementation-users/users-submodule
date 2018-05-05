@@ -1,4 +1,7 @@
 import { Database, aql } from 'arangojs';
+import atob from 'atob';
+import bcrypt from 'bcryptjs';
+import { login } from '../services/authentication';
 
 const db = new Database({
   url: 'http://localhost:8529',
@@ -32,13 +35,28 @@ db.useBasicAuth('root', 'mysecretpassword');
  */
 export async function userLogin(ctx, next) {
   try {
-    // TODO - complete the logic of this function...
-    const now = Date.now();
-    const cursor = await db.query(aql` RETURN ${now}`);
-    const result = await cursor.next();
-    ctx.res.ok('Successfully logged in: ', result);
+    // console.log('CONTEXT RES: ', ctx.res);
+    if (!ctx.request.header.authorization) {
+      ctx.res.unauthorized('Authorization required.', {});
+      return next();
+    }
+
+    const authorisation = ctx.request.header.authorization;
+    if (!authorisation.includes('Basic')) {
+      ctx.res.unauthorized('Basic authentication required.', {});
+      return next();
+    }
+
+    const credentials = atob(authorisation.split(' ')[1]).split(':');
+    const username = credentials[0];
+    const password = credentials[1];
+
+    const response = await login(username, password);
+
+    ctx.res.ok('Successfully logged in: ', response);
     return next();
   } catch (err) {
+    console.log('ERROR: ', err);
     ctx.res.internal_server_error('Oops, something went wrong.');
     return next();
   }

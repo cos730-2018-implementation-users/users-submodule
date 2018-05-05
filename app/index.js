@@ -13,6 +13,7 @@ const logMiddleware = require('./middlewares/log');
 const logger = require('./logger');
 const requestId = require('./middlewares/requestId');
 const responseHandler = require('./middlewares/responseHandler');
+const globalUtils = require('./middlewares/globalUtils');
 const router = require('./routes');
 
 const app = new Koa();
@@ -35,6 +36,7 @@ app.use(cors({
 app.use(responseHandler());
 app.use(errorHandler());
 app.use(logMiddleware({ logger }));
+app.use(globalUtils());
 
 // Bootstrap application router
 app.use(router.routes());
