@@ -79,4 +79,5 @@ export async function logout(ctx, next) {
   // TODO - complete the logic of this function...
 
   ctx.res.ok('Successfully logged out.');
+  return next();
 }
