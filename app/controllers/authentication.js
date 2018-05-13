@@ -56,7 +56,7 @@ export async function userLogin(ctx, next) {
       return next();
     }
 
-    ctx.res.internal_server_error('Oops, something went wrong.');
+    ctx.res.internalServerError('Oops, something went wrong.');
     return next();
   }
 }
