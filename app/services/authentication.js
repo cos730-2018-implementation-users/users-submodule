@@ -1,18 +1,11 @@
-import { Database, aql } from 'arangojs';
+import { aql } from 'arangojs';
 import bcrypt from 'bcryptjs';
 import UserResponse from '../mappers/userResponse';
-
-
-const db = new Database({
-  // url: 'http://localhost:8529',
-  url: 'http://cos.mjshika.xyz/db/users',
-});
-db.useBasicAuth('root', 'mysecretpassword');
 
 /**
 * Attemps to log a user into the system.
 */
-export async function login(username, password) {
+export async function login(db, username, password) {
   try {
     const cursor = await db.query(aql`
       FOR u IN Users

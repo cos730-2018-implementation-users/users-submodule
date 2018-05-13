@@ -1,12 +1,10 @@
-import { Database, aql } from 'arangojs';
 import atob from 'atob';
-import bcrypt from 'bcryptjs';
 import { login } from '../services/authentication';
 
-const db = new Database({
-  url: 'http://localhost:8529',
-});
-db.useBasicAuth('root', 'mysecretpassword');
+// const db = new Database({
+//   url: 'http://localhost:8529',
+// });
+// db.useBasicAuth('root', 'mysecretpassword');
 
 /**
  * @swagger
@@ -51,7 +49,7 @@ export async function userLogin(ctx, next) {
     const username = credentials[0];
     const password = credentials[1];
 
-    const response = await login(username, password);
+    const response = await login(ctx.db, username, password);
 
     ctx.res.ok(response.data, 'Successfully logged in: ');
     return next();

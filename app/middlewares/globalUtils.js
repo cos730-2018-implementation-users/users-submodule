@@ -1,7 +1,8 @@
 import { Database } from 'arangojs';
 
 const db = new Database({
-  url: 'http://localhost:8529',
+  // url: 'http://localhost:8529',
+  url: 'http://cos.mjshika.xyz/db/users',
 });
 db.useBasicAuth('root', 'mysecretpassword');
 
