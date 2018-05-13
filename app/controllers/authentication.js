@@ -1,4 +1,5 @@
 import atob from 'atob';
+import jwt from 'jsonwebtoken';
 import { login } from '../services/authentication';
 
 /**
@@ -44,10 +45,16 @@ export async function userLogin(ctx, next) {
     const password = credentials[1];
 
     const response = await login(ctx.db, username, password);
+    const userObj = JSON.parse(JSON.stringify(response.data));
 
-    ctx.res.ok(response.data, 'Successfully logged in: ');
+    ctx.status = ctx.res.statusCodes.OK;
+    ctx.body = {
+      jwt: jwt.sign(userObj, ctx.jwtSecret),
+    };
+
     return next();
   } catch (err) {
+    console.log('ERRR: ', err);
     if (err.code === 401) {
       ctx.res.unauthorized(err.message, err.data);
       return next();
@@ -56,7 +63,7 @@ export async function userLogin(ctx, next) {
       return next();
     }
 
-    ctx.res.internalServerError('Oops, something went wrong.');
+    ctx.res.internalServerError(500, 'Oops, something went wrong.', {});
     return next();
   }
 }

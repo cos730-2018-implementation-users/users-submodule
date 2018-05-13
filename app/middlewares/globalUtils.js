@@ -9,6 +9,7 @@ db.useBasicAuth('root', 'mysecretpassword');
 function globalUtils() {
   return async (ctx, next) => {
     ctx.db = db;
+    ctx.jwtSecret = 'HelloWorld99';
     await next();
   };
 }
