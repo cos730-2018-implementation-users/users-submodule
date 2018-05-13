@@ -4,7 +4,8 @@ import UserResponse from '../mappers/userResponse';
 
 
 const db = new Database({
-  url: 'http://localhost:8529',
+  // url: 'http://localhost:8529',
+  url: 'http://cos.mjshika.xyz/db/users',
 });
 db.useBasicAuth('root', 'mysecretpassword');
 
@@ -52,7 +53,6 @@ export async function login(username, password) {
       return Promise.reject(errorResponse);
     }
 
-    console.log('User Response: ', response);
     return Promise.resolve(response);
   } catch (err) {
     const errorResponse = {

@@ -56,7 +56,14 @@ export async function userLogin(ctx, next) {
     ctx.res.ok(response.data, 'Successfully logged in: ');
     return next();
   } catch (err) {
-    console.log('ERROR: ', err);
+    if (err.code === 401) {
+      ctx.res.unauthorized(err.message, err.data);
+      return next();
+    } else if (err.code === 403) {
+      ctx.res.forbidden(err.message, err.data);
+      return next();
+    }
+
     ctx.res.internal_server_error('Oops, something went wrong.');
     return next();
   }
