@@ -89,6 +89,6 @@ export async function userLogin(ctx, next) {
 export async function userLogout(ctx, next) {
   // TODO - complete the logic of this function...
 
-  ctx.res.ok('Successfully logged out.');
+  ctx.res.noContent({}, 'Successfully logged out.');
   return next();
 }

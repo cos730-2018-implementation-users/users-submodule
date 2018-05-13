@@ -9,6 +9,8 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const cors = require('kcors');
 const jwt = require('koa-jwt');
+const session = require('koa-generic-session');
+const redisStore = require('koa-redis');
 const errorHandler = require('./middlewares/errorHandler');
 const logMiddleware = require('./middlewares/log');
 const logger = require('./logger');
@@ -18,6 +20,12 @@ const globalUtils = require('./middlewares/globalUtils');
 const router = require('./routes');
 
 const app = new Koa();
+
+app.use(session({
+  store: redisStore({
+    // Options specified here
+  }),
+}));
 
 // Trust proxy
 app.proxy = true;
