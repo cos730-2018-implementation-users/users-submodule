@@ -1,11 +1,6 @@
 import atob from 'atob';
 import { login } from '../services/authentication';
 
-// const db = new Database({
-//   url: 'http://localhost:8529',
-// });
-// db.useBasicAuth('root', 'mysecretpassword');
-
 /**
  * @swagger
  * /user/login:
@@ -33,7 +28,6 @@ import { login } from '../services/authentication';
  */
 export async function userLogin(ctx, next) {
   try {
-    // console.log('CONTEXT RES: ', ctx.res);
     if (!ctx.request.header.authorization) {
       ctx.res.unauthorized('Authorization required.', {});
       return next();
