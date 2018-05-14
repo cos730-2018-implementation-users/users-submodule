@@ -19,7 +19,7 @@
   },
   "main": "app",
   "scripts": {
-    "start": "node app",
+    "start": "babel-node app",
     "pm2-start": "pm2-runtime app -i max",
     "dev": "NODE_ENV=development nodemon --quiet | bunyan",
     "test": "NODE_ENV=test jest --forceExit --verbose",
@@ -33,13 +33,16 @@
     "test:coverage:integration": "npm run test:integration -- --coverage",
     "lint": "eslint app test",
     "lint:app": "eslint app",
-    "lint:test": "eslint test"
+    "lint:test": "eslint test",
+    "db": "babel-node ./app/services/database.js",
+    "users": "babel-node ./app/controllers/users"
   },
   "dependencies": {
     "arangojs": "^6.2.4",
     "bunyan": "^1.8.12",
     "dotenv": "^5.0.1",
     "elastic-apm-node": "^1.2.1",
+    "faker": "^4.1.0",
     "kcors": "^2.2.1",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
@@ -48,7 +51,9 @@
     "uuid": "^3.2.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.3",
+    "babel-preset-env": "^1.6.1",
     "coveralls": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
