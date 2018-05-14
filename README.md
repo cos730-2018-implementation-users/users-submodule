@@ -109,8 +109,7 @@ $ npm run lint:test                      # Lint test sourcecode
 	{
 		"username":"Sansa",
 		"email":"sansa@stark.com",
-		"password":"secret",
-		"cell":"+271134567890"
+		"password":"secret"
 	}
 ]
 ```
