@@ -14,7 +14,7 @@ Latest Version: **0.0.1**
 
 ## The API
 
-A **LIVING** [Swagger API](https://swagger.io/) definition of this module is available [here](https://cos730-users.mjshika.xyz/api/v0.0.1/spec). You can either copy the content into a [Swagger Editor](http://editor.swagger.io/) or within the Swagger Editor, go to "File > Import url" and add this url: ``https://cos730-users.mjshika.xyz/api/v0.0.1/spec``. The living version of the API definition will have APIs which are either already developed or are a work-in-progress. Note - the definition is in ``JSON`` format and not ``yaml``.
+A **LIVING** [Swagger API](https://swagger.io/) definition of this module is available [here](http://cos.mjshika.xyz/api/users/spec). You can either copy the content into a [Swagger Editor](http://editor.swagger.io/) or within the Swagger Editor, go to "File > Import url" and add this url: ``http://cos.mjshika.xyz/api/users/spec``. The living version of the API definition will have APIs which are either already developed or are a work-in-progress. Note - the definition is in ``JSON`` format and not ``yaml``.
 
 Alternatively, a static and more complete ``yaml`` based API definition is available [here](https://github.com/cos730-2018-implementation-users/users-submodule/blob/dev/api-definition.yml). Simply copying the contents of this file into a swagger editor should get you going.
 
@@ -42,7 +42,7 @@ $ docker-compose up -d --build
 
 #### Endpoints
 
-A living version of the application is available for testing at [https://cos730-users.mjshika.xyz/api/v0.0.1/](https://cos730-users.mjshika.xyz/api/v0.0.1/). See the API definition above for available resources and routes.
+A living version of the application is available for testing at [http://cos.mjshika.xyz/api/users/](http://cos.mjshika.xyz/api/users/). See the API definition above for available resources and routes.
 
 #### Ports
 
