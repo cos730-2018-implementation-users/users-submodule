@@ -82,3 +82,34 @@ $ npm run lint:app                       # Lint app sourcecode
 $ npm run lint:test                      # Lint test sourcecode
 ```
 
+### Test Users
+
+```json
+[
+	{
+		"username":"Neddy",
+		"email":"ned@stark.com",
+		"password":"secret"
+	},
+	{
+		"username":"Kaitlin",
+		"email":"kaitlin@stark.com",
+		"password":"secret"
+	},
+	{
+		"username":"Arya",
+		"email":"arya@stark.com",
+		"password":"secret"
+	},
+	{
+		"username":"John",
+		"email":"john@stark.com",
+		"password":"secret"
+	},
+	{
+		"username":"Sansa",
+		"email":"sansa@stark.com",
+		"password":"secret"
+	}
+]
+```
