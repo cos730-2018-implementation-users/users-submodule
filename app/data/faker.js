@@ -5,7 +5,7 @@ faker.locale = 'en';
 
 const numberOfUsers = 5; // Replace with any number >= 1
 
-const generateUsers = () => {
+export default () => {
   const users = [];
 
   for (let i = 0; i < numberOfUsers; i += 1) {
@@ -22,14 +22,14 @@ const generateUsers = () => {
       lastName,
       email: `${username}@gmail.co.za`,
       password,
-      cell: faker.phone.phoneNumber('+27#########'),
+      cell: faker.phone.phoneNumber('+27121234567'),
       status: 'active',
       deleted: false,
-
+      created: faker.date.past(),
+      updated: faker.date.past(),
+      updatedBy: 'System',
     });
   }
 
   return users;
 };
-
-export default generateUsers;

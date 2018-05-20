@@ -5,7 +5,7 @@ import UserResponse from '../mappers/userResponse';
 
 require('dotenv').config();
 
-const db = new Database('http://localhost:8529');
+const db = new Database(process.env.ARANGODB_HOST);
 db.useBasicAuth(process.env.ARANGODB_USERNAME, process.env.ARANDODB_PASSWORD);
 
 db.useDatabase('Users');

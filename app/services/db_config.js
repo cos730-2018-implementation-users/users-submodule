@@ -1,13 +1,11 @@
 import Database from 'arangojs';
-import { generateUsers } from '../data/faker';
+import generateUsers from '../data/faker';
 import logger from '../logger';
 
 // Enables env file that stores confidential keys to be loaded into process.env
 require('dotenv').config();
 
-const basePath = 'localhost';
-const db = new Database(`http://${basePath}:8529`);
-
+const db = new Database(process.env.ARANGODB_HOST);
 db.useBasicAuth(process.env.ARANGODB_USERNAME, process.env.ARANDODB_PASSWORD);
 
 db.createDatabase('Users').then(

@@ -1,11 +1,9 @@
 import { Database } from 'arangojs';
 
-const db = new Database({
-  url: 'http://localhost:8529',
-  // url: 'http://cos.mjshika.xyz/db/users',
-});
+require('dotenv').config();
 
-db.useBasicAuth('root', 'mysecretpassword');
+const db = new Database(process.env.ARANGODB_HOST);
+db.useBasicAuth(process.env.ARANGODB_USERNAME, process.env.ARANDODB_PASSWORD);
 
 function globalUtils() {
   return async (ctx, next) => {
