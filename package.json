@@ -34,7 +34,7 @@
     "lint": "eslint app test",
     "lint:app": "eslint app",
     "lint:test": "eslint test",
-    "db": "babel-node ./app/services/database.js",
+    "db": "babel-node ./app/services/db_config.js",
     "users": "babel-node ./app/controllers/users"
   },
   "dependencies": {

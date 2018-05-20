@@ -12,7 +12,12 @@ router.get('/spec', homeController.showSwaggerSpec);
 router.get('/user/login', authenticationController.userLogin);
 router.get('/user/logout', authenticationController.userLogout);
 
-router.get('/user', usersController.getAllUsersRequest);
+// CRUD ROUTES
+router.post('/user', usersController.addNewUserRequest);
+router.get('/users', usersController.getAllUsersRequest);
+router.get('/user/:userid', usersController.getUserByIdRequest);
+// router.post('/user/update', usersController.addNewUserRequest);
+// router.post('/user/delete', usersController.addNewUserRequest);
 
 module.exports = router;
 //# sourceMappingURL=routes.js.map

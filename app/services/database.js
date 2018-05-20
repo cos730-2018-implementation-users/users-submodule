@@ -1,38 +1,25 @@
-import Database from 'arangojs';
-// import { generateUsers } from '../data/faker';
+import { Database, aql } from 'arangojs';
+
 require('dotenv').config();
 
 const db = new Database('http://localhost:8529');
-// const basePath = 'cos730-users.mjshika.xyz/api/v0.0.1/';
-console.log(process.env.ARANGODB_USERNAME);
-db.useBasicAuth(process.env.ARANGODB_USERNAME, process.env.ARANDODB_PASSWORD); // Might need to move this to env variables
-
-// db.createDatabase('Users').then(
-//   () => console.log('Database created'),
-//   err => console.error('Failed to create database:', err),
-// );
+db.useBasicAuth(process.env.ARANGODB_USERNAME, process.env.ARANDODB_PASSWORD);
 
 db.useDatabase('Users');
 
+// Retrieve user by id
+const getUserById = async (userId) => {
+  try {
+    const cursor = await db.query(aql`RETURN DOCUMENT("UserDetails", ${userId.params.userid})`);
+    const result = await cursor.next();
+    return result;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 
-const collection = db.collection('UserDetails');
-
-// // Create a user detail table/collection
-// collection.create().then(
-//   () => console.log('Collection created'),
-//   err => console.error('Failed to create collection:', err),
-// );
-//
-//
-// // Populate with fake data
-// collection.import(generateUsers()).then(
-//   result => console.log('Import complete:', result),
-//   err => console.error('Import failed:', err),
-// );
-
-// db.dropDatabase('Users');
-
-const getAllUsers = async function () {
+// Retrieve all users from db
+const getAllUsers = async () => {
   try {
     const cursor = await db.query('FOR doc IN UserDetails RETURN doc');
     const result = await cursor.all();
@@ -42,15 +29,18 @@ const getAllUsers = async function () {
   }
 };
 
-const createUsers = async function () {
+// Insert user into db
+const createUser = async (user) => {
   try {
-    const cursor = await db.query('INSERT { name: "John Doe", gender: "m" } INTO UserDetails RETURN NEW');
-    return console.log(cursor);
+    const cursor = await db.query(aql`INSERT ${user} IN UserDetails RETURN NEW`);
+    return cursor;
   } catch (err) {
     throw new Error(err);
   }
 };
 
-createUsers()
-module.exports = { getAllUsers };
+// Update a user object - Full or partial update
+// FOR u IN users UPDATE u._key WITH { name: CONCAT(u.firstName, " ", u.lastName) } IN users
+
+module.exports = { getAllUsers, createUser, getUserById };
 
