@@ -23,6 +23,7 @@ const example = {
 };
 
 const addNewUserRequest = (ctx) => {
+
   // Check if request is valid
 
   users.createUser(example).then((k) => {
@@ -33,6 +34,9 @@ const addNewUserRequest = (ctx) => {
 };
 
 const getUserByIdRequest = (ctx) => {
+
+  // Check if request is valid
+
   users.getUserById(ctx).then((k) => {
     data = k;
   });
@@ -40,6 +44,8 @@ const getUserByIdRequest = (ctx) => {
   console.log(ctx.body);
   return ctx.body;
 };
+
+// const updateUser
 
 module.exports = {
   getAllUsersRequest,
