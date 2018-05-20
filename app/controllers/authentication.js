@@ -1,3 +1,7 @@
+import atob from 'atob';
+import jwt from 'jsonwebtoken';
+import { login } from '../services/authentication';
+
 /**
  * @swagger
  * /user/login:
@@ -23,11 +27,46 @@
  *       500:
  *         $ref: '#/responses/InternalServerError'
  */
-const userLogin = (ctx) => {
-  // TODO - complete the logic of this function...
+export async function userLogin(ctx, next) {
+  try {
+    if (!ctx.request.header.authorization) {
+      ctx.res.unauthorized('Authorization required.', {});
+      return next();
+    }
 
-  ctx.res.ok('Successfully logged in.');
-};
+    const authorisation = ctx.request.header.authorization;
+    if (!authorisation.includes('Basic')) {
+      ctx.res.unauthorized('Basic authentication required.', {});
+      return next();
+    }
+
+    const credentials = atob(authorisation.split(' ')[1]).split(':');
+    const username = credentials[0];
+    const password = credentials[1];
+
+    const response = await login(ctx.db, username, password);
+    const userObj = JSON.parse(JSON.stringify(response.data));
+
+    ctx.status = ctx.res.statusCodes.OK;
+    ctx.body = {
+      jwt: jwt.sign(userObj, ctx.jwtSecret),
+    };
+
+    return next();
+  } catch (err) {
+    console.log('ERRR: ', err);
+    if (err.code === 401) {
+      ctx.res.unauthorized(err.message, err.data);
+      return next();
+    } else if (err.code === 403) {
+      ctx.res.forbidden(err.message, err.data);
+      return next();
+    }
+
+    ctx.res.internalServerError(500, 'Oops, something went wrong.', {});
+    return next();
+  }
+}
 
 /**
  * @swagger
@@ -47,13 +86,9 @@ const userLogin = (ctx) => {
  *       500:
  *         $ref: '#/responses/InternalServerError'
  */
-const userLogout = (ctx) => {
+export async function userLogout(ctx, next) {
   // TODO - complete the logic of this function...
 
-  ctx.res.ok('Successfully logged out.');
-};
-
-module.exports = {
-  userLogin,
-  userLogout,
-};
+  ctx.res.noContent({}, 'Successfully logged out.');
+  return next();
+}
