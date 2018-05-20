@@ -27,17 +27,17 @@ import { login } from '../services/authentication';
  *       500:
  *         $ref: '#/responses/InternalServerError'
  */
-export async function userLogin(ctx, next) {
+export async function userLogin(ctx) {
   try {
     if (!ctx.request.header.authorization) {
       ctx.res.unauthorized('Authorization required.', {});
-      return next();
+      return ctx;
     }
 
     const authorisation = ctx.request.header.authorization;
     if (!authorisation.includes('Basic')) {
       ctx.res.unauthorized('Basic authentication required.', {});
-      return next();
+      return ctx;
     }
 
     const credentials = atob(authorisation.split(' ')[1]).split(':');
@@ -52,22 +52,19 @@ export async function userLogin(ctx, next) {
       jwt: jwt.sign(userObj, ctx.jwtSecret),
     };
 
-
     return ctx;
-
-    // return next();
   } catch (err) {
     console.log('ERRR: ', err);
     if (err.code === 401) {
       ctx.res.unauthorized(err.message, err.data);
-      return next();
+      return ctx;
     } else if (err.code === 403) {
       ctx.res.forbidden(err.message, err.data);
-      return next();
+      return ctx;
     }
 
     ctx.res.internalServerError(500, 'Oops, something went wrong.', {});
-    return next();
+    return ctx;
   }
 }
 
@@ -89,9 +86,9 @@ export async function userLogin(ctx, next) {
  *       500:
  *         $ref: '#/responses/InternalServerError'
  */
-export async function userLogout(ctx, next) {
+export async function userLogout(ctx) {
   // TODO - complete the logic of this function...
 
   ctx.res.noContent({}, 'Successfully logged out.');
-  return next();
+  return ctx;
 }

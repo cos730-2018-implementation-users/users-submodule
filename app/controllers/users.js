@@ -1,53 +1,51 @@
-const users = require('../services/database');
+import users from '../services/users';
 
-let data;
-
-const getAllUsersRequest = (ctx) => {
-  users.getAllUsers().then((k) => {
-    data = k;
+const getAllUsersRequest = async (ctx) => {
+  await users.getAllUsers().then((k) => {
+    const data = k;
+    ctx.body = data;
+    return ctx;
   });
-  ctx.body = data;
-  return ctx;
 };
 
-const addNewUserRequest = (ctx) => {
-  users.createUser(ctx.request.body).then((k) => {
-    data = k._result;
+const addNewUserRequest = async (ctx) => {
+  await users.createUser(ctx.request.body).then((k) => {
+    const data = k;
+    ctx.body = data;
+    return ctx;
   });
-  ctx.body = data;
-  return ctx;
 };
 
-const getUserByIdRequest = (ctx) => {
-  users.getUserById(ctx).then((k) => {
-    data = k;
+const getUserByIdRequest = async (ctx) => {
+  await users.getUserById(ctx).then((k) => {
+    const data = k;
+    ctx.body = data;
+    return ctx;
   });
-  ctx.body = data;
-  return ctx;
 };
 
-const deleteUserRequest = (ctx) => {
-  users.deleteUser(ctx).then((k) => {
-    data = k;
+const deleteUserRequest = async (ctx) => {
+  await users.deleteUser(ctx).then((k) => {
+    const data = k;
+    ctx.body = data;
+    return ctx;
   });
-  ctx.body = data;
-  return ctx;
 };
 
-const fullyUpdateUserRequest = (ctx) => {
-  users.updateUser(ctx).then((k) => {
-    data = k;
+const fullyUpdateUserRequest = async (ctx) => {
+  await users.updateUser(ctx).then((k) => {
+    const data = k;
+    ctx.body = data;
+    return ctx;
   });
-  ctx.body = data;
-  return ctx;
 };
 
-const partiallyUpdateUserRequest = (ctx) => {
-  users.patchUser(ctx).then((k) => {
-    data = k;
+const partiallyUpdateUserRequest = async (ctx) => {
+  await users.patchUser(ctx).then((k) => {
+    const data = k;
+    ctx.body = data;
+    return ctx;
   });
-  ctx.body = data;
-  return ctx;
 };
 
 module.exports = {

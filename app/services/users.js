@@ -1,4 +1,7 @@
+/* eslint-disable no-underscore-dangle */
+
 import { Database, aql } from 'arangojs';
+import UserResponse from '../mappers/userResponse';
 
 require('dotenv').config();
 
@@ -12,7 +15,7 @@ const getUserById = async (userId) => {
   try {
     const cursor = await db.query(aql`RETURN DOCUMENT("UserDetails", ${userId.params.userid})`);
     const result = await cursor.next();
-    return result;
+    return new UserResponse(result);
   } catch (err) {
     throw new Error(err);
   }
@@ -23,6 +26,12 @@ const getAllUsers = async () => {
   try {
     const cursor = await db.query('FOR doc IN UserDetails RETURN doc');
     const result = await cursor.all();
+
+    // Map each user resposne
+    for (let i = 0; i < result.length; i += 1) {
+      result[i] = new UserResponse(result[i]);
+    }
+
     return result;
   } catch (err) {
     throw new Error(err);
@@ -32,8 +41,9 @@ const getAllUsers = async () => {
 // Insert user into db
 const createUser = async (user) => {
   try {
+    console.log('USER TO BE CREATED: ', user);
     const cursor = await db.query(aql`INSERT ${user} IN UserDetails RETURN NEW`);
-    return cursor;
+    return new UserResponse(cursor._result[0]);
   } catch (err) {
     throw new Error(err);
   }
@@ -43,7 +53,7 @@ const createUser = async (user) => {
 const deleteUser = async (userId) => {
   try {
     const cursor = await db.query(aql`UPDATE ${userId.params.userid} WITH { deleted: true } IN UserDetails RETURN NEW`);
-    return cursor;
+    return new UserResponse(cursor._result[0]);
   } catch (err) {
     throw new Error(err);
   }
@@ -52,7 +62,7 @@ const deleteUser = async (userId) => {
 const updateUser = async (user) => {
   try {
     const cursor = await db.query(aql`REPLACE ${user.params.userid} WITH ${user.request.body} IN UserDetails RETURN NEW`);
-    return cursor;
+    return new UserResponse(cursor._result[0]);
   } catch (err) {
     throw new Error(err);
   }
@@ -61,7 +71,7 @@ const updateUser = async (user) => {
 const patchUser = async (user) => {
   try {
     const cursor = await db.query(aql`UPDATE ${user.params.userid} WITH ${user.request.body} IN UserDetails RETURN NEW`);
-    return cursor;
+    return new UserResponse(cursor._result[0]);
   } catch (err) {
     throw new Error(err);
   }
@@ -75,4 +85,3 @@ module.exports = {
   patchUser,
   updateUser,
 };
-

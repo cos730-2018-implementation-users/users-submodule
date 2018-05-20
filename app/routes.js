@@ -13,7 +13,7 @@ router.get('/user/logout', authenticationController.userLogout);
 
 // CRUD ROUTES
 router.post('/user', usersController.addNewUserRequest);
-router.get('/users', usersController.getAllUsersRequest);
+router.get('/user', usersController.getAllUsersRequest);
 router.get('/user/:userid', usersController.getUserByIdRequest);
 router.put('/user/:userid', usersController.fullyUpdateUserRequest);
 router.patch('/user/:userid', usersController.partiallyUpdateUserRequest);
