@@ -7,8 +7,9 @@ import UserResponse from '../mappers/userResponse';
 */
 export async function login(db, username, password) {
   try {
+    db.useDatabase('Users');
     const cursor = await db.query(aql`
-      FOR u IN Users
+      FOR u IN UserDetails
       FILTER u.email == ${username}
       RETURN u
       `);

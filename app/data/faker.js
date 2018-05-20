@@ -2,7 +2,7 @@ import faker from 'faker';
 
 faker.locale = 'en';
 
-const numberOfUsers = 1000; // Replace with any number >= 1
+const numberOfUsers = 5; // Replace with any number >= 1
 
 export const generateUsers = () => {
 

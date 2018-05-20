@@ -52,7 +52,10 @@ export async function userLogin(ctx, next) {
       jwt: jwt.sign(userObj, ctx.jwtSecret),
     };
 
-    return next();
+
+    return ctx;
+
+    // return next();
   } catch (err) {
     console.log('ERRR: ', err);
     if (err.code === 401) {

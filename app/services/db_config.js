@@ -4,7 +4,7 @@ import { generateUsers } from '../data/faker';
 // Enables env file that stores confidential keys to be loaded into process.env
 require('dotenv').config();
 
-const basePath = 'cos730-users.mjshika.xyz/api/v0.0.1/';
+const basePath = 'localhost';
 const db = new Database(`http://${basePath}:8529`);
 
 db.useBasicAuth(process.env.ARANGODB_USERNAME, process.env.ARANDODB_PASSWORD);
