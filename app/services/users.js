@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-
 import { Database, aql } from 'arangojs';
 import UserResponse from '../mappers/userResponse';
+import bcrypt from 'bcryptjs';
 
 require('dotenv').config();
 
@@ -41,8 +41,15 @@ const getAllUsers = async () => {
 // Insert user into db
 const createUser = async (user) => {
   try {
-    console.log('USER TO BE CREATED: ', user);
-    const cursor = await db.query(aql`INSERT ${user} IN UserDetails RETURN NEW`);
+    const tempUser = user;
+
+    if (tempUser.password) {
+      // Hash the password
+      const salt = bcrypt.genSaltSync(10);
+      tempUser.password = bcrypt.hashSync('secret', salt);
+    }
+
+    const cursor = await db.query(aql`INSERT ${tempUser} IN UserDetails RETURN NEW`);
     return new UserResponse(cursor._result[0]);
   } catch (err) {
     throw new Error(err);
