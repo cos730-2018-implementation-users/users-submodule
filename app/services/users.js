@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Database, aql } from 'arangojs';
-import UserResponse from '../mappers/userResponse';
 import bcrypt from 'bcryptjs';
+import UserResponse from '../mappers/userResponse';
 
 require('dotenv').config();
 

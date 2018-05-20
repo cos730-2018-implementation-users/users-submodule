@@ -54,7 +54,6 @@ export async function userLogin(ctx) {
 
     return ctx;
   } catch (err) {
-    console.log('ERRR: ', err);
     if (err.code === 401) {
       ctx.res.unauthorized(err.message, err.data);
       return ctx;
