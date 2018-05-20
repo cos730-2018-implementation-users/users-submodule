@@ -39,8 +39,40 @@ const createUser = async (user) => {
   }
 };
 
-// Update a user object - Full or partial update
-// FOR u IN users UPDATE u._key WITH { name: CONCAT(u.firstName, " ", u.lastName) } IN users
+// Delete user from DB
+const deleteUser = async (userId) => {
+  try {
+    const cursor = await db.query(aql`UPDATE ${userId.params.userid} WITH { deleted: true } IN UserDetails RETURN NEW`);
+    return cursor;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 
-module.exports = { getAllUsers, createUser, getUserById };
+const updateUser = async (user) => {
+  try {
+    const cursor = await db.query(aql`REPLACE ${user.params.userid} WITH ${user.request.body} IN UserDetails RETURN NEW`);
+    return cursor;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const patchUser = async (user) => {
+  try {
+    const cursor = await db.query(aql`UPDATE ${user.params.userid} WITH ${user.request.body} IN UserDetails RETURN NEW`);
+    return cursor;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+module.exports = {
+  getAllUsers,
+  createUser,
+  getUserById,
+  deleteUser,
+  patchUser,
+  updateUser,
+};
 

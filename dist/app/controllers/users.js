@@ -5,53 +5,59 @@ var users = require('../services/database');
 var data = void 0;
 
 var getAllUsersRequest = function getAllUsersRequest(ctx) {
-  // Check if request is valid
   users.getAllUsers().then(function (k) {
     data = k;
   });
   ctx.body = data;
-  return ctx.body;
-};
-
-var example = {
-  username: 'Erin_Gleichner2',
-  firstName: 'Erin2',
-  lastName: 'Gleichner2',
-  email: 'Erin_Gleichne2r@gmail.co.za',
-  password: 'hPKMLUX91fupwa6',
-  cell: '+27956707758',
-  status: 'active',
-  deleted: false
+  return ctx;
 };
 
 var addNewUserRequest = function addNewUserRequest(ctx) {
-
-  // Check if request is valid
-
-  users.createUser(example).then(function (k) {
+  users.createUser(ctx.request.body).then(function (k) {
     data = k._result;
   });
   ctx.body = data;
-  return ctx.body;
+  return ctx;
 };
 
 var getUserByIdRequest = function getUserByIdRequest(ctx) {
-
-  // Check if request is valid
-
   users.getUserById(ctx).then(function (k) {
     data = k;
   });
   ctx.body = data;
-  console.log(ctx.body);
-  return ctx.body;
+  return ctx;
 };
 
-// const updateUser
+var deleteUserRequest = function deleteUserRequest(ctx) {
+  users.deleteUser(ctx).then(function (k) {
+    data = k;
+  });
+  ctx.body = data;
+  return ctx;
+};
+
+var fullyUpdateUserRequest = function fullyUpdateUserRequest(ctx) {
+  users.updateUser(ctx).then(function (k) {
+    data = k;
+  });
+  ctx.body = data;
+  return ctx;
+};
+
+var partiallyUpdateUserRequest = function partiallyUpdateUserRequest(ctx) {
+  users.patchUser(ctx).then(function (k) {
+    data = k;
+  });
+  ctx.body = data;
+  return ctx;
+};
 
 module.exports = {
   getAllUsersRequest: getAllUsersRequest,
   addNewUserRequest: addNewUserRequest,
-  getUserByIdRequest: getUserByIdRequest
+  getUserByIdRequest: getUserByIdRequest,
+  deleteUserRequest: deleteUserRequest,
+  fullyUpdateUserRequest: fullyUpdateUserRequest,
+  partiallyUpdateUserRequest: partiallyUpdateUserRequest
 };
 //# sourceMappingURL=users.js.map

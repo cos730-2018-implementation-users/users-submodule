@@ -1,7 +1,7 @@
 import Database from 'arangojs';
 import { generateUsers } from '../data/faker';
 
-// Enable env file that stores confidential keys to be loaded into process.env
+// Enables env file that stores confidential keys to be loaded into process.env
 require('dotenv').config();
 
 const basePath = 'cos730-users.mjshika.xyz/api/v0.0.1/';

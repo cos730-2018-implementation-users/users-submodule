@@ -1,7 +1,10 @@
 'use strict';
 
 var _templateObject = _taggedTemplateLiteral(['RETURN DOCUMENT("UserDetails", ', ')'], ['RETURN DOCUMENT("UserDetails", ', ')']),
-    _templateObject2 = _taggedTemplateLiteral(['INSERT ', ' IN UserDetails RETURN NEW'], ['INSERT ', ' IN UserDetails RETURN NEW']);
+    _templateObject2 = _taggedTemplateLiteral(['INSERT ', ' IN UserDetails RETURN NEW'], ['INSERT ', ' IN UserDetails RETURN NEW']),
+    _templateObject3 = _taggedTemplateLiteral(['UPDATE ', ' WITH { deleted: true } IN UserDetails RETURN NEW'], ['UPDATE ', ' WITH { deleted: true } IN UserDetails RETURN NEW']),
+    _templateObject4 = _taggedTemplateLiteral(['REPLACE ', ' WITH ', ' IN UserDetails RETURN NEW'], ['REPLACE ', ' WITH ', ' IN UserDetails RETURN NEW']),
+    _templateObject5 = _taggedTemplateLiteral(['UPDATE ', ' WITH ', ' IN UserDetails RETURN NEW'], ['UPDATE ', ' WITH ', ' IN UserDetails RETURN NEW']);
 
 var _arangojs = require('arangojs');
 
@@ -128,8 +131,112 @@ var createUser = function () {
   };
 }();
 
-// Update a user object - Full or partial update
-// FOR u IN users UPDATE u._key WITH { name: CONCAT(u.firstName, " ", u.lastName) } IN users
+// Delete user from DB
+var deleteUser = function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(userId) {
+    var cursor;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _context4.next = 3;
+            return db.query((0, _arangojs.aql)(_templateObject3, userId.params.userid));
 
-module.exports = { getAllUsers: getAllUsers, createUser: createUser, getUserById: getUserById };
+          case 3:
+            cursor = _context4.sent;
+            return _context4.abrupt('return', cursor);
+
+          case 7:
+            _context4.prev = 7;
+            _context4.t0 = _context4['catch'](0);
+            throw new Error(_context4.t0);
+
+          case 10:
+          case 'end':
+            return _context4.stop();
+        }
+      }
+    }, _callee4, undefined, [[0, 7]]);
+  }));
+
+  return function deleteUser(_x3) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+var updateUser = function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(user) {
+    var cursor;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            _context5.next = 3;
+            return db.query((0, _arangojs.aql)(_templateObject4, user.params.userid, user.request.body));
+
+          case 3:
+            cursor = _context5.sent;
+            return _context5.abrupt('return', cursor);
+
+          case 7:
+            _context5.prev = 7;
+            _context5.t0 = _context5['catch'](0);
+            throw new Error(_context5.t0);
+
+          case 10:
+          case 'end':
+            return _context5.stop();
+        }
+      }
+    }, _callee5, undefined, [[0, 7]]);
+  }));
+
+  return function updateUser(_x4) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+var patchUser = function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(user) {
+    var cursor;
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            _context6.next = 3;
+            return db.query((0, _arangojs.aql)(_templateObject5, user.params.userid, user.request.body));
+
+          case 3:
+            cursor = _context6.sent;
+            return _context6.abrupt('return', cursor);
+
+          case 7:
+            _context6.prev = 7;
+            _context6.t0 = _context6['catch'](0);
+            throw new Error(_context6.t0);
+
+          case 10:
+          case 'end':
+            return _context6.stop();
+        }
+      }
+    }, _callee6, undefined, [[0, 7]]);
+  }));
+
+  return function patchUser(_x5) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+module.exports = {
+  getAllUsers: getAllUsers,
+  createUser: createUser,
+  getUserById: getUserById,
+  deleteUser: deleteUser,
+  patchUser: patchUser,
+  updateUser: updateUser
+};
 //# sourceMappingURL=database.js.map
