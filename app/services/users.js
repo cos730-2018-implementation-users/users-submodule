@@ -147,7 +147,49 @@ const deleteUser = async (userId) => {
 
 const updateUser = async (user) => {
   try {
-    const cursor = await db.query(aql`REPLACE ${user.params.userid} WITH ${user.request.body} IN UserDetails RETURN NEW`);
+    // Ensure only given fields are updated.
+    const userCursor = await db.query(aql`RETURN DOCUMENT("UserDetails", ${user.params.userid})`);
+    const userResult = await userCursor.next();
+
+    if (!userResult) {
+      const errorResponse = {
+        code: 422,
+        message: 'The given user does not exist.',
+        data: {},
+      };
+      return Promise.reject(errorResponse);
+    }
+
+    const userUpdates = userResult;
+    const payload = user.request.body;
+
+    if (typeof payload.cell !== 'undefined') {
+      userUpdates.cell = payload.cell;
+    }
+
+    if (typeof payload.firstName !== 'undefined') {
+      userUpdates.firstName = payload.firstName;
+    }
+
+    if (typeof payload.lastName !== 'undefined') {
+      userUpdates.lastName = payload.lastName;
+    }
+
+    if (typeof payload.status !== 'undefined') {
+      userUpdates.status = payload.status;
+    }
+
+    if (typeof payload.deleted !== 'undefined') {
+      userUpdates.deleted = payload.deleted;
+    }
+
+    if (typeof payload.roles !== 'undefined') {
+      userUpdates.roles = payload.roles;
+    }
+
+    userUpdates.updated = moment().format();
+
+    const cursor = await db.query(aql`REPLACE ${user.params.userid} WITH ${userUpdates} IN UserDetails RETURN NEW`);
 
     // Get the roles...
     const rolesCursor = await db.query(aql`FOR doc IN Roles RETURN doc`);
@@ -165,7 +207,49 @@ const updateUser = async (user) => {
 
 const patchUser = async (user) => {
   try {
-    const cursor = await db.query(aql`UPDATE ${user.params.userid} WITH ${user.request.body} IN UserDetails RETURN NEW`);
+    // Ensure only given fields are updated.
+    const userCursor = await db.query(aql`RETURN DOCUMENT("UserDetails", ${user.params.userid})`);
+    const userResult = await userCursor.next();
+
+    if (!userResult) {
+      const errorResponse = {
+        code: 422,
+        message: 'The given user does not exist.',
+        data: {},
+      };
+      return Promise.reject(errorResponse);
+    }
+
+    const userUpdates = userResult;
+    const payload = user.request.body;
+
+    if (typeof payload.cell !== 'undefined') {
+      userUpdates.cell = payload.cell;
+    }
+
+    if (typeof payload.firstName !== 'undefined') {
+      userUpdates.firstName = payload.firstName;
+    }
+
+    if (typeof payload.lastName !== 'undefined') {
+      userUpdates.lastName = payload.lastName;
+    }
+
+    if (typeof payload.status !== 'undefined') {
+      userUpdates.status = payload.status;
+    }
+
+    if (typeof payload.deleted !== 'undefined') {
+      userUpdates.deleted = payload.deleted;
+    }
+
+    if (typeof payload.roles !== 'undefined') {
+      userUpdates.roles = payload.roles;
+    }
+
+    userUpdates.updated = moment().format();
+
+    const cursor = await db.query(aql`UPDATE ${user.params.userid} WITH ${userUpdates} IN UserDetails RETURN NEW`);
 
     // Get the roles...
     const rolesCursor = await db.query(aql`FOR doc IN Roles RETURN doc`);
