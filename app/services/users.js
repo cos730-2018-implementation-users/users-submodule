@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Database, aql } from 'arangojs';
 import bcrypt from 'bcryptjs';
+import moment from 'moment';
 import UserResponse from '../mappers/userResponse';
 
 require('dotenv').config();
@@ -67,6 +68,33 @@ const getAllUsers = async () => {
 // Insert user into db
 const createUser = async (user) => {
   try {
+    // Ensure email is not duplicate...
+    const duplicateEmailCursor = await await db.query(aql`FOR u IN UserDetails FILTER u.email == ${user.email} RETURN u`);
+    const duplicateEmailResult = await duplicateEmailCursor.next();
+
+    if (duplicateEmailResult) {
+      const errorResponse = {
+        code: 422,
+        message: 'A user already exists with the specified email.',
+        data: {},
+      };
+      return Promise.reject(errorResponse);
+    }
+
+    // Ensure username is not duplicate...
+    const duplicateUsernameCursor = await await db.query(aql`FOR u IN UserDetails FILTER u.username == ${user.username} RETURN u`);
+    const duplicateUsernameResult = await duplicateUsernameCursor.next();
+
+    if (duplicateUsernameResult) {
+      const errorResponse = {
+        code: 422,
+        message: 'A user already exists with the specified username.',
+        data: {},
+      };
+      return Promise.reject(errorResponse);
+    }
+
+    // At this point, everything is okay.
     const tempUser = user;
 
     if (tempUser.password) {
@@ -74,6 +102,22 @@ const createUser = async (user) => {
       const salt = bcrypt.genSaltSync(10);
       tempUser.password = bcrypt.hashSync('secret', salt);
     }
+
+    // Set the created and updated at times...
+    const timeNow = moment().format();
+    tempUser.created = timeNow;
+    tempUser.updated = timeNow;
+
+    // Set other meta data...
+    if (typeof tempUser.deleted === 'undefined') {
+      tempUser.deleted = false;
+    }
+
+    if (typeof tempUser.status === 'undefined') {
+      tempUser.status = 'active';
+    }
+
+    tempUser.updatedBy = 'System';
 
     const cursor = await db.query(aql`INSERT ${tempUser} IN UserDetails RETURN NEW`);
 
