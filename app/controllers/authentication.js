@@ -59,7 +59,7 @@ export async function userLogin(ctx) {
       ctx.res.unauthorized(err.message, err.data);
       return ctx;
     } else if (err.code === 403) {
-      ctx.res.forbidden(err.message, err.data);
+      ctx.res.forbidden(403, err.message, err.data);
       return ctx;
     }
 

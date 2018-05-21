@@ -20,10 +20,10 @@ export async function login(db, username, password) {
       return Promise.reject(errorResponse);
     }
 
-    if (user.status !== 'active') {
+    if (user.status !== 'active' || user.deleted) {
       const errorResponse = {
         code: 403,
-        message: 'Your account is not active. Please contact support.',
+        message: 'Your account is deactivated. Please contact support.',
         data: {},
       };
       return Promise.reject(errorResponse);
