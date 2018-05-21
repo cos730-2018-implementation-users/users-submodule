@@ -57,6 +57,7 @@
     "koa-jwt": "^3.3.1",
     "koa-redis": "^3.1.2",
     "koa-router": "^7.4.0",
+    "lodash": "^4.17.10",
     "swagger-jsdoc": "^1.9.7",
     "uuid": "^3.2.1"
   },

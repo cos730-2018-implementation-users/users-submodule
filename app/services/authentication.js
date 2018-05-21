@@ -8,7 +8,7 @@ import UserResponse from '../mappers/userResponse';
 export async function login(db, username, password) {
   try {
     db.useDatabase('Users');
-    const cursor = await db.query(aql`FOR u IN UserDetails FILTER u.email == ${username} RETURN u`);
+    const cursor = await db.query(aql`FOR u IN UserDetails FILTER u.email == ${username} or u.username == ${username} RETURN u`);
 
     const user = await cursor.next();
     if (!user) {
@@ -29,9 +29,18 @@ export async function login(db, username, password) {
       return Promise.reject(errorResponse);
     }
 
+    // Get the roles...
+    const rolesCursor = await db.query(aql`FOR doc IN Roles RETURN doc`);
+    const dbRoles = await rolesCursor.all();
+
+    // Get the permissions...
+    const permissionsCursor = await db.query(aql`FOR doc IN Permissions RETURN doc`);
+    const dbPermissions = await permissionsCursor.all();
+
+    const userData = await new UserResponse(user, dbRoles, dbPermissions);
     const response = {
       result: bcrypt.compareSync(password, user.password),
-      data: new UserResponse(user),
+      data: userData,
     };
 
     if (!response.result) {

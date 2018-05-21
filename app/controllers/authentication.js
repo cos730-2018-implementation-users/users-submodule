@@ -50,6 +50,7 @@ export async function userLogin(ctx) {
     ctx.status = ctx.res.statusCodes.OK;
     ctx.body = {
       jwt: jwt.sign(userObj, ctx.jwtSecret),
+      user: userObj,
     };
 
     return ctx;

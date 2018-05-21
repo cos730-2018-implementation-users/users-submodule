@@ -12,7 +12,6 @@ const db = new Database({
 // db.useBasicAuth(process.env.ARANGODB_USERNAME, process.env.ARANDODB_PASSWORD);
 db.useBasicAuth('root', 'mysecretpassword');
 
-
 db.useDatabase('Users');
 
 // Retrieve user by id
@@ -20,7 +19,21 @@ const getUserById = async (userId) => {
   try {
     const cursor = await db.query(aql`RETURN DOCUMENT("UserDetails", ${userId.params.userid})`);
     const result = await cursor.next();
-    return new UserResponse(result);
+
+    let userResult = {};
+    if (result) {
+      // Get the roles...
+      const rolesCursor = await db.query(aql`FOR doc IN Roles RETURN doc`);
+      const dbRoles = await rolesCursor.all();
+
+      // Get the permissions...
+      const permissionsCursor = await db.query(aql`FOR doc IN Permissions RETURN doc`);
+      const dbPermissions = await permissionsCursor.all();
+
+      userResult = await new UserResponse(result, dbRoles, dbPermissions);
+    }
+
+    return userResult;
   } catch (err) {
     throw new Error(err);
   }
@@ -32,9 +45,17 @@ const getAllUsers = async () => {
     const cursor = await db.query('FOR doc IN UserDetails RETURN doc');
     const result = await cursor.all();
 
+    // Get the roles...
+    const rolesCursor = await db.query(aql`FOR doc IN Roles RETURN doc`);
+    const dbRoles = await rolesCursor.all();
+
+    // Get the permissions...
+    const permissionsCursor = await db.query(aql`FOR doc IN Permissions RETURN doc`);
+    const dbPermissions = await permissionsCursor.all();
+
     // Map each user resposne
     for (let i = 0; i < result.length; i += 1) {
-      result[i] = new UserResponse(result[i]);
+      result[i] = new UserResponse(result[i], dbRoles, dbPermissions);
     }
 
     return result;
@@ -55,7 +76,16 @@ const createUser = async (user) => {
     }
 
     const cursor = await db.query(aql`INSERT ${tempUser} IN UserDetails RETURN NEW`);
-    return new UserResponse(cursor._result[0]);
+
+    // Get the roles...
+    const rolesCursor = await db.query(aql`FOR doc IN Roles RETURN doc`);
+    const dbRoles = await rolesCursor.all();
+
+    // Get the permissions...
+    const permissionsCursor = await db.query(aql`FOR doc IN Permissions RETURN doc`);
+    const dbPermissions = await permissionsCursor.all();
+
+    return new UserResponse(cursor._result[0], dbRoles, dbPermissions);
   } catch (err) {
     throw new Error(err);
   }
@@ -74,7 +104,16 @@ const deleteUser = async (userId) => {
 const updateUser = async (user) => {
   try {
     const cursor = await db.query(aql`REPLACE ${user.params.userid} WITH ${user.request.body} IN UserDetails RETURN NEW`);
-    return new UserResponse(cursor._result[0]);
+
+    // Get the roles...
+    const rolesCursor = await db.query(aql`FOR doc IN Roles RETURN doc`);
+    const dbRoles = await rolesCursor.all();
+
+    // Get the permissions...
+    const permissionsCursor = await db.query(aql`FOR doc IN Permissions RETURN doc`);
+    const dbPermissions = await permissionsCursor.all();
+
+    return new UserResponse(cursor._result[0], dbRoles, dbPermissions);
   } catch (err) {
     throw new Error(err);
   }
@@ -83,7 +122,16 @@ const updateUser = async (user) => {
 const patchUser = async (user) => {
   try {
     const cursor = await db.query(aql`UPDATE ${user.params.userid} WITH ${user.request.body} IN UserDetails RETURN NEW`);
-    return new UserResponse(cursor._result[0]);
+
+    // Get the roles...
+    const rolesCursor = await db.query(aql`FOR doc IN Roles RETURN doc`);
+    const dbRoles = await rolesCursor.all();
+
+    // Get the permissions...
+    const permissionsCursor = await db.query(aql`FOR doc IN Permissions RETURN doc`);
+    const dbPermissions = await permissionsCursor.all();
+
+    return new UserResponse(cursor._result[0], dbRoles, dbPermissions);
   } catch (err) {
     throw new Error(err);
   }
