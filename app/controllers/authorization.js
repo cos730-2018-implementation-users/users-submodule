@@ -1,7 +1,7 @@
 import authorization from '../services/authorization';
 
 const getAllRoles = async (ctx) => {
-  await authorization.getAllRoles().then((k) => {
+  await authorization.getAllRoles(ctx.db).then((k) => {
     const data = k;
     ctx.body = data;
     return ctx;
@@ -9,7 +9,7 @@ const getAllRoles = async (ctx) => {
 };
 
 const getRoleById = async (ctx) => {
-  await authorization.getRoleById(ctx.request.body).then((k) => {
+  await authorization.getRoleById(ctx.db, ctx.params.roleId).then((k) => {
     const data = k;
     ctx.body = data;
     return ctx;
@@ -17,7 +17,7 @@ const getRoleById = async (ctx) => {
 };
 
 const getAllPermissions = async (ctx) => {
-  await authorization.getAllPermissions().then((k) => {
+  await authorization.getAllPermissions(ctx.db).then((k) => {
     const data = k;
     ctx.body = data;
     return ctx;
@@ -25,7 +25,7 @@ const getAllPermissions = async (ctx) => {
 };
 
 const getPermissionById = async (ctx) => {
-  await authorization.getPermissionById(ctx.request.body).then((k) => {
+  await authorization.getPermissionById(ctx.db, ctx.params.permissionId).then((k) => {
     const data = k;
     ctx.body = data;
     return ctx;

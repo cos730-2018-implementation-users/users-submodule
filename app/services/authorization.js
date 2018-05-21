@@ -1,21 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-import { Database, aql } from 'arangojs';
+import { aql } from 'arangojs';
 import RoleResponse from '../mappers/roleResponse';
 import PermissionResponse from '../mappers/permissionResponse';
 
-require('dotenv').config();
-
-const db = new Database({
-  // url: process.env.ARANGODB_HOST,
-  url: 'http://users-db:8529',
-});
-// db.useBasicAuth(process.env.ARANGODB_USERNAME, process.env.ARANDODB_PASSWORD);
-db.useBasicAuth('root', 'mysecretpassword');
-
-db.useDatabase('Users');
-
-const getAllRoles = async () => {
+const getAllRoles = async (db) => {
   try {
+    db.useDatabase('Users');
+
     // Get the roles...
     const rolesCursor = await db.query(aql`FOR doc IN Roles RETURN doc`);
     const dbRoles = await rolesCursor.all();
@@ -35,9 +26,10 @@ const getAllRoles = async () => {
   }
 };
 
-const getRoleById = async (roleId) => {
+const getRoleById = async (db, roleId) => {
   try {
-    const cursor = await db.query(aql`RETURN DOCUMENT("Roles", ${roleId.params.roleId})`);
+    db.useDatabase('Users');
+    const cursor = await db.query(aql`RETURN DOCUMENT("Roles", ${roleId})`);
     const result = await cursor.next();
 
     let roleResult = {};
@@ -55,8 +47,9 @@ const getRoleById = async (roleId) => {
   }
 };
 
-const getAllPermissions = async () => {
+const getAllPermissions = async (db) => {
   try {
+    db.useDatabase('Users');
     // Get the permissions...
     const permissionsCursor = await db.query(aql`FOR doc IN Permissions RETURN doc`);
     const dbPermissions = await permissionsCursor.all();
@@ -72,9 +65,10 @@ const getAllPermissions = async () => {
   }
 };
 
-const getPermissionById = async (permissionId) => {
+const getPermissionById = async (db, permissionId) => {
   try {
-    const cursor = await db.query(aql`RETURN DOCUMENT("Permissions", ${permissionId.params.permissionId})`);
+    db.useDatabase('Users');
+    const cursor = await db.query(aql`RETURN DOCUMENT("Permissions", ${permissionId})`);
     const result = await cursor.next();
 
     let permissionResult = {};
