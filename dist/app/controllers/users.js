@@ -21,7 +21,7 @@ var addNewUserRequest = function addNewUserRequest(ctx) {
 };
 
 var getUserByIdRequest = function getUserByIdRequest(ctx) {
-  users.getUserById(ctx).then(function (k) {
+  users.getUserById(ctx.params.userid).then(function (k) {
     data = k;
   });
   ctx.body = data;
@@ -29,7 +29,7 @@ var getUserByIdRequest = function getUserByIdRequest(ctx) {
 };
 
 var deleteUserRequest = function deleteUserRequest(ctx) {
-  users.deleteUser(ctx).then(function (k) {
+  users.deleteUser(ctx.params.userid).then(function (k) {
     data = k;
   });
   ctx.body = data;
@@ -37,7 +37,7 @@ var deleteUserRequest = function deleteUserRequest(ctx) {
 };
 
 var fullyUpdateUserRequest = function fullyUpdateUserRequest(ctx) {
-  users.updateUser(ctx).then(function (k) {
+  users.updateUser(ctx.params.userid, ctx.request.body).then(function (k) {
     data = k;
   });
   ctx.body = data;
@@ -45,7 +45,7 @@ var fullyUpdateUserRequest = function fullyUpdateUserRequest(ctx) {
 };
 
 var partiallyUpdateUserRequest = function partiallyUpdateUserRequest(ctx) {
-  users.patchUser(ctx).then(function (k) {
+  users.patchUser(ctx.params.userid, ctx.request.body).then(function (k) {
     data = k;
   });
   ctx.body = data;

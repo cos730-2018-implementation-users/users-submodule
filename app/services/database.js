@@ -10,7 +10,7 @@ db.useDatabase('Users');
 // Retrieve user by id
 const getUserById = async (userId) => {
   try {
-    const cursor = await db.query(aql`RETURN DOCUMENT("UserDetails", ${userId.params.userid})`);
+    const cursor = await db.query(aql`RETURN DOCUMENT("UserDetails", ${userId})`);
     const result = await cursor.next();
     return result;
   } catch (err) {
@@ -42,25 +42,35 @@ const createUser = async (user) => {
 // Delete user from DB
 const deleteUser = async (userId) => {
   try {
-    const cursor = await db.query(aql`UPDATE ${userId.params.userid} WITH { deleted: true } IN UserDetails RETURN NEW`);
+    const cursor = await db.query(aql`UPDATE ${userId} WITH { deleted: true } IN UserDetails RETURN NEW`);
     return cursor;
   } catch (err) {
     throw new Error(err);
   }
 };
 
-const updateUser = async (user) => {
+const updateUser = async (userId, userContent) => {
   try {
-    const cursor = await db.query(aql`REPLACE ${user.params.userid} WITH ${user.request.body} IN UserDetails RETURN NEW`);
+    const cursor = await db.query(aql`REPLACE ${userId} WITH ${userContent} IN UserDetails RETURN NEW`);
     return cursor;
   } catch (err) {
     throw new Error(err);
   }
 };
 
-const patchUser = async (user) => {
+const patchUser = async (userId, userContent) => {
   try {
-    const cursor = await db.query(aql`UPDATE ${user.params.userid} WITH ${user.request.body} IN UserDetails RETURN NEW`);
+    const cursor = await db.query(aql`UPDATE ${userId} WITH ${userContent} IN UserDetails RETURN NEW`);
+    return cursor;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+// Remove from db for test purposes
+const deleteUserObject = async (userId) => {
+  try {
+    const cursor = await db.query(aql`REMOVE ${userId} IN UserDetail`);
     return cursor;
   } catch (err) {
     throw new Error(err);
@@ -74,5 +84,6 @@ module.exports = {
   deleteUser,
   patchUser,
   updateUser,
+  deleteUserObject,
 };
 

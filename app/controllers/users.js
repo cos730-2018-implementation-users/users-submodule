@@ -19,7 +19,7 @@ const addNewUserRequest = (ctx) => {
 };
 
 const getUserByIdRequest = (ctx) => {
-  users.getUserById(ctx).then((k) => {
+  users.getUserById(ctx.params.userid).then((k) => {
     data = k;
   });
   ctx.body = data;
@@ -27,7 +27,7 @@ const getUserByIdRequest = (ctx) => {
 };
 
 const deleteUserRequest = (ctx) => {
-  users.deleteUser(ctx).then((k) => {
+  users.deleteUser(ctx.params.userid).then((k) => {
     data = k;
   });
   ctx.body = data;
@@ -35,7 +35,7 @@ const deleteUserRequest = (ctx) => {
 };
 
 const fullyUpdateUserRequest = (ctx) => {
-  users.updateUser(ctx).then((k) => {
+  users.updateUser(ctx.params.userid, ctx.request.body).then((k) => {
     data = k;
   });
   ctx.body = data;
@@ -43,7 +43,7 @@ const fullyUpdateUserRequest = (ctx) => {
 };
 
 const partiallyUpdateUserRequest = (ctx) => {
-  users.patchUser(ctx).then((k) => {
+  users.patchUser(ctx.params.userid, ctx.request.body).then((k) => {
     data = k;
   });
   ctx.body = data;

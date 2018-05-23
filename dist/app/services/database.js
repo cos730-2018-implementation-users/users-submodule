@@ -4,7 +4,8 @@ var _templateObject = _taggedTemplateLiteral(['RETURN DOCUMENT("UserDetails", ',
     _templateObject2 = _taggedTemplateLiteral(['INSERT ', ' IN UserDetails RETURN NEW'], ['INSERT ', ' IN UserDetails RETURN NEW']),
     _templateObject3 = _taggedTemplateLiteral(['UPDATE ', ' WITH { deleted: true } IN UserDetails RETURN NEW'], ['UPDATE ', ' WITH { deleted: true } IN UserDetails RETURN NEW']),
     _templateObject4 = _taggedTemplateLiteral(['REPLACE ', ' WITH ', ' IN UserDetails RETURN NEW'], ['REPLACE ', ' WITH ', ' IN UserDetails RETURN NEW']),
-    _templateObject5 = _taggedTemplateLiteral(['UPDATE ', ' WITH ', ' IN UserDetails RETURN NEW'], ['UPDATE ', ' WITH ', ' IN UserDetails RETURN NEW']);
+    _templateObject5 = _taggedTemplateLiteral(['UPDATE ', ' WITH ', ' IN UserDetails RETURN NEW'], ['UPDATE ', ' WITH ', ' IN UserDetails RETURN NEW']),
+    _templateObject6 = _taggedTemplateLiteral(['REMOVE ', ' IN UserDetail'], ['REMOVE ', ' IN UserDetail']);
 
 var _arangojs = require('arangojs');
 
@@ -29,7 +30,7 @@ var getUserById = function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return db.query((0, _arangojs.aql)(_templateObject, userId.params.userid));
+            return db.query((0, _arangojs.aql)(_templateObject, userId));
 
           case 3:
             cursor = _context.sent;
@@ -141,7 +142,7 @@ var deleteUser = function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return db.query((0, _arangojs.aql)(_templateObject3, userId.params.userid));
+            return db.query((0, _arangojs.aql)(_templateObject3, userId));
 
           case 3:
             cursor = _context4.sent;
@@ -166,7 +167,7 @@ var deleteUser = function () {
 }();
 
 var updateUser = function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(user) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(userId, userContent) {
     var cursor;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
@@ -174,7 +175,7 @@ var updateUser = function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return db.query((0, _arangojs.aql)(_templateObject4, user.params.userid, user.request.body));
+            return db.query((0, _arangojs.aql)(_templateObject4, userId, userContent));
 
           case 3:
             cursor = _context5.sent;
@@ -193,13 +194,13 @@ var updateUser = function () {
     }, _callee5, undefined, [[0, 7]]);
   }));
 
-  return function updateUser(_x4) {
+  return function updateUser(_x4, _x5) {
     return _ref5.apply(this, arguments);
   };
 }();
 
 var patchUser = function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(user) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(userId, userContent) {
     var cursor;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
@@ -207,7 +208,7 @@ var patchUser = function () {
           case 0:
             _context6.prev = 0;
             _context6.next = 3;
-            return db.query((0, _arangojs.aql)(_templateObject5, user.params.userid, user.request.body));
+            return db.query((0, _arangojs.aql)(_templateObject5, userId, userContent));
 
           case 3:
             cursor = _context6.sent;
@@ -226,8 +227,42 @@ var patchUser = function () {
     }, _callee6, undefined, [[0, 7]]);
   }));
 
-  return function patchUser(_x5) {
+  return function patchUser(_x6, _x7) {
     return _ref6.apply(this, arguments);
+  };
+}();
+
+// Remove from db for test purposes
+var deleteUserObject = function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(userId) {
+    var cursor;
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            _context7.prev = 0;
+            _context7.next = 3;
+            return db.query((0, _arangojs.aql)(_templateObject6, userId));
+
+          case 3:
+            cursor = _context7.sent;
+            return _context7.abrupt('return', cursor);
+
+          case 7:
+            _context7.prev = 7;
+            _context7.t0 = _context7['catch'](0);
+            throw new Error(_context7.t0);
+
+          case 10:
+          case 'end':
+            return _context7.stop();
+        }
+      }
+    }, _callee7, undefined, [[0, 7]]);
+  }));
+
+  return function deleteUserObject(_x8) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
@@ -237,6 +272,7 @@ module.exports = {
   getUserById: getUserById,
   deleteUser: deleteUser,
   patchUser: patchUser,
-  updateUser: updateUser
+  updateUser: updateUser,
+  deleteUserObject: deleteUserObject
 };
 //# sourceMappingURL=database.js.map

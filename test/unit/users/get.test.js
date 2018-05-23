@@ -21,7 +21,7 @@ beforeAll(async () => {
   });
 });
 
-test('Tests whether object is retrieved', async () => {
+test('Tests whether object is retrieved by id', async () => {
   const result = await users.getUserById(userId).then((k) => {
     userId = k._key;
     return k;
